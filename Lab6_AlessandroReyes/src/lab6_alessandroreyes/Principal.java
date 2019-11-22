@@ -111,6 +111,7 @@ public class Principal extends javax.swing.JFrame {
         jl_cotizacion = new javax.swing.JList<>();
         btn_cotizacion_regresar = new javax.swing.JButton();
         btn_generarcoti = new javax.swing.JButton();
+        btn_coti_agregar = new javax.swing.JButton();
         bg_bebidanacional = new javax.swing.ButtonGroup();
         jd_eliminar = new javax.swing.JDialog();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -359,6 +360,18 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_generarcoti.setText("Generar cotizacion");
+        btn_generarcoti.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_generarcotiMouseClicked(evt);
+            }
+        });
+
+        btn_coti_agregar.setText("Agregar a la lista");
+        btn_coti_agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_coti_agregarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jd_cotizacionLayout = new javax.swing.GroupLayout(jd_cotizacion.getContentPane());
         jd_cotizacion.getContentPane().setLayout(jd_cotizacionLayout);
@@ -366,20 +379,28 @@ public class Principal extends javax.swing.JFrame {
             jd_cotizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_cotizacionLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jd_cotizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
                     .addGroup(jd_cotizacionLayout.createSequentialGroup()
-                        .addComponent(btn_cotizacion_regresar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jd_cotizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                            .addGroup(jd_cotizacionLayout.createSequentialGroup()
+                                .addComponent(btn_cotizacion_regresar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_generarcoti))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_cotizacionLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_generarcoti))))
+                        .addComponent(btn_coti_agregar)
+                        .addGap(104, 104, 104))))
         );
         jd_cotizacionLayout.setVerticalGroup(
             jd_cotizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(jd_cotizacionLayout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_coti_agregar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jd_cotizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_cotizacion_regresar)
                     .addComponent(btn_generarcoti)))
@@ -736,6 +757,20 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_eliminarMouseClicked
 
+    private void btn_generarcotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_generarcotiMouseClicked
+        
+    }//GEN-LAST:event_btn_generarcotiMouseClicked
+
+    private void btn_coti_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_coti_agregarMouseClicked
+        if (jt_cotizacion.getSelectedRow() >= 0) {
+            DefaultListModel modelo = (DefaultListModel) jl_eliminar.getModel();
+             modelo.addElement("#"+bebidas.get(jt_cotizacion.getSelectedRow()).getCodigo()+", "
+                     +bebidas.get(jt_cotizacion.getSelectedRow()).getNombre());
+            modelo.addElement(jt_cotizacion.getSelectedRow());
+            jl_eliminar.setModel(modelo);
+        }
+    }//GEN-LAST:event_btn_coti_agregarMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -776,6 +811,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.ButtonGroup bg_bebidanacional;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_agregar_regresar;
+    private javax.swing.JButton btn_coti_agregar;
     private javax.swing.JButton btn_cotizacion_regresar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_eliminar_regresar;

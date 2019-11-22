@@ -331,13 +331,22 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Component id="jScrollPane1" min="-2" pref="426" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane2" pref="323" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="btn_cotizacion_regresar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jScrollPane2" pref="323" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="btn_cotizacion_regresar" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="btn_generarcoti" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="btn_generarcoti" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_coti_agregar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -348,7 +357,9 @@
               <Component id="jScrollPane1" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <Component id="jScrollPane2" min="-2" pref="440" max="-2" attributes="0"/>
-                  <EmptySpace pref="71" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="btn_coti_agregar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="42" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btn_cotizacion_regresar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btn_generarcoti" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -438,6 +449,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Generar cotizacion"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_generarcotiMouseClicked"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btn_coti_agregar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Agregar a la lista"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_coti_agregarMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

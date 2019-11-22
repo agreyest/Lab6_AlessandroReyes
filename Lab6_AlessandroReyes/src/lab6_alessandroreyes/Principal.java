@@ -1,7 +1,17 @@
 package lab6_alessandroreyes;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -10,6 +20,39 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        
+        
+        File archivo = new File("./Inventario.txt");
+        Scanner sc = null;
+        bebidas = new ArrayList();
+        if (archivo.exists()) {
+            try {
+                sc = new Scanner(archivo);
+                sc.useDelimiter(";");
+                while (sc.hasNext()) {
+                    bebidas.add(new Bebida(sc.next(), sc.next(),sc.next(), sc.nextInt(), sc.nextInt(), sc.nextBoolean(), 
+                            sc.nextInt(), sc.next(), sc.nextInt(),sc.nextInt(), sc.next()));
+                }
+            } catch (Exception e) {
+            }
+            sc.close();
+        }//fin del if
+        System.out.println("size: "+bebidas.size());
+        for (int i = 0; i < bebidas.size(); i++) {
+            System.out.println(bebidas.get(i).getColorantes());
+        }
+        DefaultTableModel table1 = new DefaultTableModel();
+        for (int i = 0; i < bebidas.size(); i++) {
+            Object[] newrow = {
+                bebidas.get(i).getCodigo(),
+                bebidas.get(i).getMarca(),
+                bebidas.get(i).getNombre(),
+                bebidas.get(i).getPrecio(),
+                bebidas.get(i).getCantidad()
+            };
+            table1.addRow(newrow);
+        }
+        jt_cotizacion.setModel(table1);
     }
 
     /**
@@ -33,7 +76,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        ftf_fecha = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
         tf_cantidad = new javax.swing.JTextField();
         tf_precio = new javax.swing.JTextField();
@@ -45,18 +88,21 @@ public class Principal extends javax.swing.JFrame {
         rb_si = new javax.swing.JRadioButton();
         rb_no = new javax.swing.JRadioButton();
         tf_numlote = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        cb_azul = new javax.swing.JCheckBox();
+        cb_rojo = new javax.swing.JCheckBox();
+        cb_verde = new javax.swing.JCheckBox();
+        cb_amarillo = new javax.swing.JCheckBox();
+        cb_blanco = new javax.swing.JCheckBox();
         btn_agregar = new javax.swing.JButton();
         btn_agregar_regresar = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
         jd_cotizacion = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         jt_cotizacion = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jl_cotizacion = new javax.swing.JList<>();
+        btn_cotizacion_regresar = new javax.swing.JButton();
+        btn_generarcoti = new javax.swing.JButton();
         bg_bebidanacional = new javax.swing.ButtonGroup();
         jMenuBar1 = new javax.swing.JMenuBar();
         Acciones = new javax.swing.JMenu();
@@ -88,27 +134,33 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel11.setText("Fecha de vencimiento");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        ftf_fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         jLabel12.setText("Ejemplo: Nov 22, 2019");
 
         bg_bebidanacional.add(rb_si);
+        rb_si.setSelected(true);
         rb_si.setText("Si");
 
         bg_bebidanacional.add(rb_no);
         rb_no.setText("no");
 
-        jCheckBox1.setText("Azul-4");
+        cb_azul.setText("Azul-4");
 
-        jCheckBox2.setText("Rojo-69");
+        cb_rojo.setText("Rojo-69");
 
-        jCheckBox3.setText("Verde-420");
+        cb_verde.setText("Verde-420");
 
-        jCheckBox4.setText("Amarillo-77");
+        cb_amarillo.setText("Amarillo-77");
 
-        jCheckBox5.setText("Blanco-07");
+        cb_blanco.setText("Blanco-07");
 
         btn_agregar.setText("Agregar a inventario");
+        btn_agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_agregarMouseClicked(evt);
+            }
+        });
 
         btn_agregar_regresar.setText("Regresar");
         btn_agregar_regresar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -116,6 +168,8 @@ public class Principal extends javax.swing.JFrame {
                 btn_agregar_regresarMouseClicked(evt);
             }
         });
+
+        jLabel13.setText("8_digit");
 
         javax.swing.GroupLayout jd_agregarBLayout = new javax.swing.GroupLayout(jd_agregarB.getContentPane());
         jd_agregarB.getContentPane().setLayout(jd_agregarBLayout);
@@ -127,10 +181,6 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jd_agregarBLayout.createSequentialGroup()
                         .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jd_agregarBLayout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(tf_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jd_agregarBLayout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -152,7 +202,13 @@ public class Principal extends javax.swing.JFrame {
                                     .addGap(33, 33, 33)
                                     .addComponent(rb_si)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(rb_no)))
+                                    .addComponent(rb_no))
+                                .addGroup(jd_agregarBLayout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel13)
+                                        .addComponent(tf_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jd_agregarBLayout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -160,13 +216,13 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(jd_agregarBLayout.createSequentialGroup()
                                 .addGap(135, 135, 135)
                                 .addComponent(btn_agregar_regresar)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jd_agregarBLayout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
                                 .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ftf_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(btn_agregar)
                                         .addComponent(jLabel12))))
@@ -181,15 +237,15 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jd_agregarBLayout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox1)
+                        .addComponent(cb_azul)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox2)
+                        .addComponent(cb_rojo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox3)
+                        .addComponent(cb_verde)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox4)
+                        .addComponent(cb_amarillo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox5)
+                        .addComponent(cb_blanco)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -204,7 +260,9 @@ public class Principal extends javax.swing.JFrame {
                             .addComponent(jLabel9)))
                     .addComponent(tf_precio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tf_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13)
+                .addGap(34, 34, 34)
                 .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel10)
@@ -214,7 +272,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel11)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ftf_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tf_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
@@ -235,14 +293,14 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(tf_numlote, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox5))
+                    .addComponent(cb_azul)
+                    .addComponent(cb_rojo)
+                    .addComponent(cb_verde)
+                    .addComponent(cb_amarillo)
+                    .addComponent(cb_blanco))
                 .addGap(34, 34, 34)
                 .addGroup(jd_agregarBLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_agregar)
@@ -251,19 +309,43 @@ public class Principal extends javax.swing.JFrame {
 
         jt_cotizacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Codigo", "Marca", "Nombre", "Precio", "Cantidad en el inventario"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jt_cotizacion);
 
         jl_cotizacion.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(jl_cotizacion);
+
+        btn_cotizacion_regresar.setText("Regresar");
+        btn_cotizacion_regresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cotizacion_regresarMouseClicked(evt);
+            }
+        });
+
+        btn_generarcoti.setText("Generar cotizacion");
 
         javax.swing.GroupLayout jd_cotizacionLayout = new javax.swing.GroupLayout(jd_cotizacion.getContentPane());
         jd_cotizacion.getContentPane().setLayout(jd_cotizacionLayout);
@@ -272,14 +354,22 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jd_cotizacionLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
+                .addGroup(jd_cotizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                    .addGroup(jd_cotizacionLayout.createSequentialGroup()
+                        .addComponent(btn_cotizacion_regresar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_generarcoti))))
         );
         jd_cotizacionLayout.setVerticalGroup(
             jd_cotizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1)
             .addGroup(jd_cotizacionLayout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 94, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addGroup(jd_cotizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_cotizacion_regresar)
+                    .addComponent(btn_generarcoti)))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -305,6 +395,11 @@ public class Principal extends javax.swing.JFrame {
         Acciones.add(jm_inventario);
 
         jmi_cotizar.setText("Cotizacion");
+        jmi_cotizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cotizarActionPerformed(evt);
+            }
+        });
         Acciones.add(jmi_cotizar);
 
         jMenuBar1.add(Acciones);
@@ -334,12 +429,166 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jmi_inventario_agregarActionPerformed
 
     private void btn_agregar_regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregar_regresarMouseClicked
+        tf_cantalcohol.setText("");
+        tf_cantazucar.setText("");
+        tf_cantidad.setText("");
+        tf_codigo.setText("");
+        tf_marca.setText("");
+        tf_nombre.setText("");
+        tf_numlote.setText("");
+        tf_precio.setText("");
+        ftf_fecha.setText("");
+        rb_si.setSelected(true);
+        rb_no.setSelected(false);
+        cb_azul.setSelected(false);
+        cb_rojo.setSelected(false);
+        cb_verde.setSelected(false);
+        cb_amarillo.setSelected(false);
+        cb_blanco.setSelected(false);
         jd_agregarB.setModal(false);
         jd_agregarB.setVisible(false);
         this.pack();
         this.setLocationRelativeTo(this);
         this.setVisible(true);
     }//GEN-LAST:event_btn_agregar_regresarMouseClicked
+
+    private void btn_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarMouseClicked
+        boolean ver = true;
+        for (int i = 0; i < bebidas.size(); i++) {
+            if (tf_codigo.getText().equals(bebidas.get(i).getCodigo())) {
+                ver = false;
+                JOptionPane.showMessageDialog(jd_agregarB, "Un producto existente en el inventario, tiene el mismo codigo y no se puede agregar");
+                tf_codigo.setText("");
+                break;
+            }
+        }
+        if (ver == true && tf_marca.getText().length() > 0 && tf_cantalcohol.getText().length() > 0 && tf_cantazucar.getText().length() > 0 && 
+                tf_cantidad.getText().length() > 0 && tf_codigo.getText().length() > 0 && tf_nombre.getText().length() > 0 &&
+                tf_numlote.getText().length() > 0 && tf_precio.getText().length() > 0) 
+        {
+            try {
+                File archivo = new File("./Inventario.txt");
+                FileWriter fw = null;
+                BufferedWriter bw = null;
+                Scanner sc = null;
+                try {
+                    fw = new FileWriter(archivo, true);
+                    bw = new BufferedWriter(fw);
+                    bw.write(tf_codigo.getText() + ";");
+                    bw.write(tf_marca.getText() + ";");
+                    bw.write(tf_nombre.getText() + ";");
+                    bw.write(Integer.parseInt(tf_cantazucar.getText()) + ";");
+                    bw.write(Integer.parseInt(tf_cantalcohol.getText()) + ";");
+                    if (rb_si.isSelected()) {
+                        bw.write("true" + ";");
+                    } else {
+                        bw.write("false" + ";");
+                    }
+                    bw.write(Integer.parseInt(tf_numlote.getText()) + ";");
+                    if(cb_amarillo.isSelected()){
+                        bw.write("Azul-4" + ",");
+                    }
+                    if(cb_amarillo.isSelected()){
+                        bw.write("Rojo-69" + ",");
+                    }
+                    if(cb_amarillo.isSelected()){
+                        bw.write("Verde-42" + ",");
+                    }
+                    if(cb_amarillo.isSelected()){
+                        bw.write("Amarillo-77" + ",");
+                    }
+                    if(cb_amarillo.isSelected()){
+                        bw.write("Blanco-07" + ",");
+                    }
+                    bw.write(";");
+                    bw.write(Integer.parseInt(tf_precio.getText()) + ";");
+                    bw.write(Integer.parseInt(tf_cantidad.getText()) + ";");
+                    bw.write(ftf_fecha.getText() + ";");
+                    bw.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                bw.close();
+                fw.close();
+                bebidas = new ArrayList();
+                if (archivo.exists()) {
+                    try {
+                        sc = new Scanner(archivo);
+                        sc.useDelimiter(";");
+                        while (sc.hasNext()) {
+                            bebidas.add(new Bebida(sc.next(), sc.next(), sc.next(), sc.nextInt(), sc.nextInt(), sc.nextBoolean(),
+                                    sc.nextInt(), sc.next(), sc.nextInt(), sc.nextInt(), sc.next()));
+                        }
+                    } catch (Exception e) {
+                    }
+                    sc.close();
+                }
+                JOptionPane.showMessageDialog(jd_agregarB, "Bebida creada con exito");
+                DefaultTableModel table1 = new DefaultTableModel();
+                for (int i = 0; i < bebidas.size(); i++) {
+                    Object[] newrow = {
+                        bebidas.get(i).getCodigo(),
+                        bebidas.get(i).getMarca(),
+                        bebidas.get(i).getNombre(),
+                        bebidas.get(i).getPrecio(),
+                        bebidas.get(i).getCantidad()
+                    };
+                    table1.addRow(newrow);
+                }
+                jt_cotizacion.setModel(table1);
+                tf_cantalcohol.setText("");
+                tf_cantazucar.setText("");
+                tf_cantidad.setText("");
+                tf_codigo.setText("");
+                tf_marca.setText("");
+                tf_nombre.setText("");
+                tf_numlote.setText("");
+                tf_precio.setText("");
+                ftf_fecha.setText("");
+                cb_azul.setSelected(false);
+                cb_rojo.setSelected(false);
+                cb_verde.setSelected(false);
+                cb_amarillo.setSelected(false);
+                cb_blanco.setSelected(false);
+                }catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(jd_agregarB, "Hubo un error al crear la bebida, vuelva a intentarlo");
+            tf_cantalcohol.setText("");
+            tf_cantazucar.setText("");
+            tf_cantidad.setText("");
+            tf_codigo.setText("");
+            tf_marca.setText("");
+            tf_nombre.setText("");
+            tf_numlote.setText("");
+            tf_precio.setText("");
+            ftf_fecha.setText("");
+            rb_si.setSelected(true);
+            rb_no.setSelected(false);
+            cb_azul.setSelected(false);
+            cb_rojo.setSelected(false);
+            cb_verde.setSelected(false);
+            cb_amarillo.setSelected(false);
+            cb_blanco.setSelected(false);
+        }//fin del if
+    }//GEN-LAST:event_btn_agregarMouseClicked
+
+    private void btn_cotizacion_regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cotizacion_regresarMouseClicked
+        jd_cotizacion.setModal(false);
+        jd_cotizacion.setVisible(false);
+        this.pack();
+        this.setLocationRelativeTo(this);
+        this.setVisible(true);
+    }//GEN-LAST:event_btn_cotizacion_regresarMouseClicked
+
+    private void jmi_cotizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cotizarActionPerformed
+        this.setVisible(false);
+        jd_cotizacion.setModal(true);
+        jd_cotizacion.pack();
+        jd_cotizacion.setLocationRelativeTo(this);
+        jd_cotizacion.setVisible(true);
+    }//GEN-LAST:event_jmi_cotizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -381,16 +630,19 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.ButtonGroup bg_bebidanacional;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_agregar_regresar;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JButton btn_cotizacion_regresar;
+    private javax.swing.JButton btn_generarcoti;
+    private javax.swing.JCheckBox cb_amarillo;
+    private javax.swing.JCheckBox cb_azul;
+    private javax.swing.JCheckBox cb_blanco;
+    private javax.swing.JCheckBox cb_rojo;
+    private javax.swing.JCheckBox cb_verde;
+    private javax.swing.JFormattedTextField ftf_fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -3,9 +3,9 @@ package lab6_alessandroreyes;
 import java.util.Date;
 
 public class Bebida {
-    private int codigo;
+    private String codigo;
     private String marca;
-    private String  nombre;
+    private String nombre;
     private int cantAzucar;
     private int cantalcohol;
     private boolean nacional;
@@ -13,13 +13,14 @@ public class Bebida {
     private String colorantes;
     private int precio;
     private int cantidad;
-    private Date fdv;
+    private String fdv;
 
     public Bebida() {
     }
 
-    public Bebida(int codigo, String marca, String nombre, int cantAzucar, int cantalcohol, boolean nacional, int numlote, String colorantes, int precio, int cantidad, Date fdv) {
-        this.codigo = codigo;
+    public Bebida(String codigo, String marca, String nombre, int cantAzucar, int cantalcohol, boolean nacional, int numlote, String colorantes, int precio, int cantidad, String fdv) {
+        if(codigo.length() == 8)
+            this.codigo = codigo;
         this.marca = marca;
         this.nombre = nombre;
         this.cantAzucar = cantAzucar;
@@ -32,12 +33,13 @@ public class Bebida {
         this.fdv = fdv;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setCodigo(String codigo) {
+        if(codigo.length() == 8)
+            this.codigo = codigo;
     }
 
     public String getMarca() {
@@ -112,11 +114,11 @@ public class Bebida {
         this.cantidad = cantidad;
     }
 
-    public Date getFdv() {
+    public String getFdv() {
         return fdv;
     }
 
-    public void setFdv(Date fdv) {
+    public void setFdv(String fdv) {
         this.fdv = fdv;
     }
 

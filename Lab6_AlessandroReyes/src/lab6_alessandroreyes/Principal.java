@@ -53,6 +53,14 @@ public class Principal extends javax.swing.JFrame {
             table1.addRow(newrow);
         }
         jt_cotizacion.setModel(table1);
+        
+        
+        DefaultListModel modelo = (DefaultListModel) jl_eliminar.getModel();
+        for (int i = 0; i < bebidas.size(); i++) {
+            modelo.addElement("#"+bebidas.get(i).getCodigo()+", "+bebidas.get(i).getNombre());
+        }
+        jl_eliminar.setModel(modelo);
+        
     }
 
     /**
@@ -104,6 +112,11 @@ public class Principal extends javax.swing.JFrame {
         btn_cotizacion_regresar = new javax.swing.JButton();
         btn_generarcoti = new javax.swing.JButton();
         bg_bebidanacional = new javax.swing.ButtonGroup();
+        jd_eliminar = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jl_eliminar = new javax.swing.JList<>();
+        btn_eliminar_regresar = new javax.swing.JButton();
+        btn_eliminar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         Acciones = new javax.swing.JMenu();
         jm_inventario = new javax.swing.JMenu();
@@ -372,6 +385,50 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btn_generarcoti)))
         );
 
+        jl_eliminar.setModel(new DefaultListModel());
+        jScrollPane3.setViewportView(jl_eliminar);
+
+        btn_eliminar_regresar.setText("Regresar");
+        btn_eliminar_regresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_eliminar_regresarMouseClicked(evt);
+            }
+        });
+
+        btn_eliminar.setText("Eliminar");
+        btn_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_eliminarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jd_eliminarLayout = new javax.swing.GroupLayout(jd_eliminar.getContentPane());
+        jd_eliminar.getContentPane().setLayout(jd_eliminarLayout);
+        jd_eliminarLayout.setHorizontalGroup(
+            jd_eliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_eliminarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addComponent(btn_eliminar_regresar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                .addComponent(btn_eliminar)
+                .addGap(59, 59, 59))
+        );
+        jd_eliminarLayout.setVerticalGroup(
+            jd_eliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_eliminarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_eliminarLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jd_eliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_eliminar_regresar)
+                    .addComponent(btn_eliminar))
+                .addGap(41, 41, 41))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Acciones.setText("Acciones");
@@ -390,6 +447,11 @@ public class Principal extends javax.swing.JFrame {
         jm_inventario.add(jmi_inventario_modificar);
 
         jmi_inventario_eliminar.setText("Eliminar");
+        jmi_inventario_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_inventario_eliminarActionPerformed(evt);
+            }
+        });
         jm_inventario.add(jmi_inventario_eliminar);
 
         Acciones.add(jm_inventario);
@@ -485,19 +547,19 @@ public class Principal extends javax.swing.JFrame {
                         bw.write("false" + ";");
                     }
                     bw.write(Integer.parseInt(tf_numlote.getText()) + ";");
-                    if(cb_amarillo.isSelected()){
+                    if (cb_amarillo.isSelected()) {
                         bw.write("Azul-4" + ",");
                     }
-                    if(cb_amarillo.isSelected()){
+                    if (cb_amarillo.isSelected()) {
                         bw.write("Rojo-69" + ",");
                     }
-                    if(cb_amarillo.isSelected()){
+                    if (cb_amarillo.isSelected()) {
                         bw.write("Verde-42" + ",");
                     }
-                    if(cb_amarillo.isSelected()){
+                    if (cb_amarillo.isSelected()) {
                         bw.write("Amarillo-77" + ",");
                     }
-                    if(cb_amarillo.isSelected()){
+                    if (cb_amarillo.isSelected()) {
                         bw.write("Blanco-07" + ",");
                     }
                     bw.write(";");
@@ -524,6 +586,12 @@ public class Principal extends javax.swing.JFrame {
                     sc.close();
                 }
                 JOptionPane.showMessageDialog(jd_agregarB, "Bebida creada con exito");
+                DefaultListModel modelo = (DefaultListModel) jl_eliminar.getModel();
+                for (int i = 0; i < bebidas.size(); i++) {
+                    modelo.addElement("#" + bebidas.get(i).getCodigo() + ", " + bebidas.get(i).getNombre());
+                }
+                jl_eliminar.setModel(modelo);
+
                 DefaultTableModel table1 = new DefaultTableModel();
                 for (int i = 0; i < bebidas.size(); i++) {
                     Object[] newrow = {
@@ -550,7 +618,7 @@ public class Principal extends javax.swing.JFrame {
                 cb_verde.setSelected(false);
                 cb_amarillo.setSelected(false);
                 cb_blanco.setSelected(false);
-                }catch (IOException ex) {
+            } catch (IOException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -589,6 +657,84 @@ public class Principal extends javax.swing.JFrame {
         jd_cotizacion.setLocationRelativeTo(this);
         jd_cotizacion.setVisible(true);
     }//GEN-LAST:event_jmi_cotizarActionPerformed
+
+    private void jmi_inventario_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_inventario_eliminarActionPerformed
+        this.setVisible(false);
+        jd_eliminar.setModal(true);
+        jd_eliminar.pack();
+        jd_eliminar.setLocationRelativeTo(this);
+        jd_eliminar.setVisible(true);
+    }//GEN-LAST:event_jmi_inventario_eliminarActionPerformed
+
+    private void btn_eliminar_regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminar_regresarMouseClicked
+        jd_eliminar.setModal(false);
+        jd_eliminar.setVisible(false);
+        this.pack();
+        this.setLocationRelativeTo(this);
+        this.setVisible(true);
+    }//GEN-LAST:event_btn_eliminar_regresarMouseClicked
+
+    private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
+        if (jl_eliminar.getSelectedIndex() >= 0) {
+            DefaultListModel modelo = (DefaultListModel) jl_eliminar.getModel();
+            modelo.remove(jl_eliminar.getSelectedIndex());
+            jl_eliminar.setModel(modelo);
+            bebidas.remove(jl_eliminar.getSelectedIndex());
+            try {
+                File archivo = new File("./Inventario.txt");
+                FileWriter fw = null;
+                BufferedWriter bw = null;
+                Scanner sc = null;
+                try {
+                    fw = new FileWriter(archivo, true);
+                    bw = new BufferedWriter(fw);
+                    for (Bebida t : bebidas) {
+                        bw.write(t.getCodigo()+";");
+                        bw.write(t.getMarca()+";");
+                        bw.write(t.getNombre()+";");
+                        bw.write(t.getCantAzucar()+";");
+                        bw.write(t.getCantalcohol()+";");
+                        bw.write(t.isNacional()+";");
+                        bw.write(t.getNumlote()+";");
+                        bw.write(t.getColorantes()+";");
+                        bw.write(t.getPrecio()+";");
+                        bw.write(t.getCantidad()+";");
+                        bw.write(t.getFdv()+";");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                bw.close();
+                fw.close();
+                bebidas = new ArrayList();
+                if (archivo.exists()) {
+                    try {
+                        sc = new Scanner(archivo);
+                        sc.useDelimiter(";");
+                        while (sc.hasNext()) {
+                            bebidas.add(new Bebida(sc.next(), sc.next(), sc.next(), sc.nextInt(), sc.nextInt(), sc.nextBoolean(),
+                                    sc.nextInt(), sc.next(), sc.nextInt(), sc.nextInt(), sc.next()));
+                        }
+                    } catch (Exception e) {
+                    }
+                    sc.close();
+                }
+                DefaultTableModel table1 = new DefaultTableModel();
+                for (int i = 0; i < bebidas.size(); i++) {
+                    Object[] newrow = {
+                        bebidas.get(i).getCodigo(),
+                        bebidas.get(i).getMarca(),
+                        bebidas.get(i).getNombre(),
+                        bebidas.get(i).getPrecio(),
+                        bebidas.get(i).getCantidad()
+                    };
+                    table1.addRow(newrow);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btn_eliminarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -631,6 +777,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btn_agregar;
     private javax.swing.JButton btn_agregar_regresar;
     private javax.swing.JButton btn_cotizacion_regresar;
+    private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_eliminar_regresar;
     private javax.swing.JButton btn_generarcoti;
     private javax.swing.JCheckBox cb_amarillo;
     private javax.swing.JCheckBox cb_azul;
@@ -654,9 +802,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JDialog jd_agregarB;
     private javax.swing.JDialog jd_cotizacion;
+    private javax.swing.JDialog jd_eliminar;
     private javax.swing.JList<String> jl_cotizacion;
+    private javax.swing.JList<String> jl_eliminar;
     private javax.swing.JMenu jm_inventario;
     private javax.swing.JMenuItem jmi_cotizar;
     private javax.swing.JMenuItem jmi_inventario_agregar;

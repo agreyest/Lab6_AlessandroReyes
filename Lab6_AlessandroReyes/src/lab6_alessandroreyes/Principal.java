@@ -481,6 +481,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btn_modificar.setText("Modificar");
+        btn_modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_modificarMouseClicked(evt);
+            }
+        });
 
         cb_mod_azul.setText("azul-4");
         cb_mod_azul.setEnabled(false);
@@ -1015,6 +1020,8 @@ public class Principal extends javax.swing.JFrame {
             jl_modificar.setEnabled(false);
             tf_modificar.setEnabled(false);
         }else if(cb_modificar.getSelectedItem().equals("Colorantes")){
+            jl_modificar.setEnabled(false);
+            tf_modificar.setEnabled(false);
             jl_colorantes.setEnabled(true);
             cb_mod_amarillo.setEnabled(true);
             cb_mod_azul.setEnabled(true);
@@ -1031,6 +1038,55 @@ public class Principal extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         this.setVisible(true);
     }//GEN-LAST:event_btn_modificar_regresarMouseClicked
+
+    private void btn_modificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_modificarMouseClicked
+        if(cb_modificar.getSelectedItem().equals("Fecha de vencimiento")){
+            jl_mod_tft.setEnabled(false);
+            ftf_modificaR_fecha.setEnabled(false);
+            jl_modificar.setEnabled(true);
+            tf_modificar.setEnabled(true);
+            bebidas.get(opt).setFdv(ftf_modificaR_fecha.getText());
+        }else if(cb_modificar.getSelectedItem().equals("Colorantes")){
+            jl_modificar.setEnabled(true);
+            tf_modificar.setEnabled(true);
+            jl_colorantes.setEnabled(false);
+            cb_mod_amarillo.setEnabled(false);
+            cb_mod_azul.setEnabled(false);
+            cb_mod_blanco.setEnabled(false);
+            cb_mod_rojo.setEnabled(false);
+            cb_mod_verde.setEnabled(false);
+        }else if(cb_modificar.getSelectedItem().equals("Codigo")){
+            jl_mod_tft.setEnabled(false);
+            ftf_modificaR_fecha.setEnabled(false);
+            jl_modificar.setEnabled(true);
+            tf_modificar.setEnabled(true);
+            bebidas.get(opt).setCodigo(tf_modificar.getText());
+        }else if(cb_modificar.getSelectedItem().equals("Marca")){
+            jl_mod_tft.setEnabled(false);
+            ftf_modificaR_fecha.setEnabled(false);
+            jl_modificar.setEnabled(true);
+            tf_modificar.setEnabled(true);
+            bebidas.get(opt).setMarca(tf_modificar.getText());
+        }else if(cb_modificar.getSelectedItem().equals("Nombre")){
+            jl_mod_tft.setEnabled(false);
+            ftf_modificaR_fecha.setEnabled(false);
+            jl_modificar.setEnabled(true);
+            tf_modificar.setEnabled(true);
+            bebidas.get(opt).setNombre(tf_modificar.getText());
+        }else if(cb_modificar.getSelectedItem().equals("Cantidad de azucar")){
+            jl_mod_tft.setEnabled(false);
+            ftf_modificaR_fecha.setEnabled(false);
+            jl_modificar.setEnabled(true);
+            tf_modificar.setEnabled(true);
+            bebidas.get(opt).setCantAzucar(Integer.parseInt(tf_modificar.getText()));
+        }else if(cb_modificar.getSelectedItem().equals("Porcentaje de alcohol")){
+            jl_mod_tft.setEnabled(false);
+            ftf_modificaR_fecha.setEnabled(false);
+            jl_modificar.setEnabled(true);
+            tf_modificar.setEnabled(true);
+            bebidas.get(opt).setCantalcohol(Integer.parseInt(tf_modificar.getText()));
+        }
+    }//GEN-LAST:event_btn_modificarMouseClicked
 
     /**
      * @param args the command line arguments

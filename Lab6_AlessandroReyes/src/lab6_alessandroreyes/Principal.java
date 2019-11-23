@@ -120,7 +120,12 @@ public class Principal extends javax.swing.JFrame {
         btn_eliminar = new javax.swing.JButton();
         jd_modificar = new javax.swing.JDialog();
         cb_modificar = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        tf_modificar = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jl_mod_tft = new javax.swing.JLabel();
+        ftf_modificaR_fecha = new javax.swing.JFormattedTextField();
+        btn_modificar_regresar = new javax.swing.JButton();
+        btn_modificar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         Acciones = new javax.swing.JMenu();
         jm_inventario = new javax.swing.JMenu();
@@ -444,31 +449,66 @@ public class Principal extends javax.swing.JFrame {
         );
 
         cb_modificar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Marca", "Nombre", "cantidad de azucar", "Porcentaje de alcohol", "Colorantes", "Precio", "Cantidad en el inventario", "Fecha de vencimiento" }));
+        cb_modificar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_modificarItemStateChanged(evt);
+            }
+        });
 
-        jTextField1.setText("jTextField1");
+        jLabel14.setText("Ingrese por lo que lo quiere cambiar");
+
+        jl_mod_tft.setText("Ejemplo: Nov 22, 2019");
+        jl_mod_tft.setEnabled(false);
+
+        ftf_modificaR_fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+        ftf_modificaR_fecha.setEnabled(false);
+
+        btn_modificar_regresar.setText("Regresar");
+
+        btn_modificar.setText("Modificar");
 
         javax.swing.GroupLayout jd_modificarLayout = new javax.swing.GroupLayout(jd_modificar.getContentPane());
         jd_modificar.getContentPane().setLayout(jd_modificarLayout);
         jd_modificarLayout.setHorizontalGroup(
             jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_modificarLayout.createSequentialGroup()
+                .addGap(124, 124, 124)
+                .addComponent(btn_modificar_regresar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
+                .addComponent(btn_modificar)
+                .addGap(171, 171, 171))
+            .addGroup(jd_modificarLayout.createSequentialGroup()
                 .addGroup(jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jd_modificarLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cb_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jd_modificarLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(587, Short.MAX_VALUE))
+                        .addGroup(jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel14)
+                            .addComponent(tf_modificar)
+                            .addComponent(ftf_modificaR_fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                            .addComponent(jl_mod_tft, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jd_modificarLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(cb_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jd_modificarLayout.setVerticalGroup(
             jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_modificarLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(cb_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(405, Short.MAX_VALUE))
+                .addGap(19, 19, 19)
+                .addComponent(cb_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tf_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(97, 97, 97)
+                .addComponent(ftf_modificaR_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jl_mod_tft)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                .addGroup(jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_modificar_regresar)
+                    .addComponent(btn_modificar))
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -864,17 +904,24 @@ public class Principal extends javax.swing.JFrame {
                 break;
             }
         }
-        if(bandera == true){
+        if (bandera == true) {
             this.setVisible(false);
-        jd_modificar.setModal(true);
-        jd_modificar.pack();
-        jd_modificar.setLocationRelativeTo(this);
-        jd_modificar.setVisible(true);
-        }else{
+            jd_modificar.setModal(true);
+            jd_modificar.pack();
+            jd_modificar.setLocationRelativeTo(this);
+            jd_modificar.setVisible(true);
+        } else {
             JOptionPane.showMessageDialog(this, "Ese producto no existe.");
         }
         
     }//GEN-LAST:event_jmi_inventario_modificarActionPerformed
+
+    private void cb_modificarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_modificarItemStateChanged
+        if(cb_modificar.getSelectedItem().equals("Fecha de vencimiento")){
+            jl_mod_tft.setEnabled(true);
+            ftf_modificaR_fecha.setEnabled(true);
+        }else if()
+    }//GEN-LAST:event_cb_modificarItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -921,6 +968,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_eliminar_regresar;
     private javax.swing.JButton btn_generarcoti;
+    private javax.swing.JButton btn_modificar;
+    private javax.swing.JButton btn_modificar_regresar;
     private javax.swing.JCheckBox cb_amarillo;
     private javax.swing.JCheckBox cb_azul;
     private javax.swing.JCheckBox cb_blanco;
@@ -928,11 +977,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JCheckBox cb_rojo;
     private javax.swing.JCheckBox cb_verde;
     private javax.swing.JFormattedTextField ftf_fecha;
+    private javax.swing.JFormattedTextField ftf_modificaR_fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -945,13 +996,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JDialog jd_agregarB;
     private javax.swing.JDialog jd_cotizacion;
     private javax.swing.JDialog jd_eliminar;
     private javax.swing.JDialog jd_modificar;
     private javax.swing.JList<String> jl_cotizacion;
     private javax.swing.JList<String> jl_eliminar;
+    private javax.swing.JLabel jl_mod_tft;
     private javax.swing.JMenu jm_inventario;
     private javax.swing.JMenuItem jmi_cotizar;
     private javax.swing.JMenuItem jmi_inventario_agregar;
@@ -965,6 +1016,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField tf_cantidad;
     private javax.swing.JTextField tf_codigo;
     private javax.swing.JTextField tf_marca;
+    private javax.swing.JTextField tf_modificar;
     private javax.swing.JTextField tf_nombre;
     private javax.swing.JTextField tf_numlote;
     private javax.swing.JTextField tf_precio;

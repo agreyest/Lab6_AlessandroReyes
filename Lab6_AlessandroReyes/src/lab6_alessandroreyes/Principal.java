@@ -928,7 +928,30 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_generarcotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_generarcotiMouseClicked
         try {                                             
-            File archivo = new File("./Factura.txt");
+            File archivo2 = new File("./Cont.txt");
+            FileWriter fw2 = null;
+            BufferedWriter bw2 = null;
+            Scanner sc2 = null;
+            try {
+                fw2 = new FileWriter(archivo2);
+                bw2 = new BufferedWriter(fw2);
+                bw2.write(cont + 1);
+                bw2.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            bw2.close();
+            fw2.close();
+            if (archivo2.exists()) {
+                try {
+                    cont = sc2.nextInt();
+                } catch (Exception e) {
+                }
+                sc2.close();
+            }
+            
+            
+            File archivo = new File("./Factura"+cont+".txt");
             FileWriter fw = null;
             BufferedWriter bw = null;
             Scanner sc = null;
@@ -1200,5 +1223,6 @@ public class Principal extends javax.swing.JFrame {
     ArrayList <Integer> nums = new ArrayList();
     ArrayList <Integer> pos = new ArrayList();
     int opt;
+    int cont=0;
 }
 

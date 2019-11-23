@@ -41,7 +41,7 @@ public class Principal extends javax.swing.JFrame {
         for (int i = 0; i < bebidas.size(); i++) {
             System.out.println(bebidas.get(i).getColorantes());
         }
-        DefaultTableModel table1 = new DefaultTableModel();
+        DefaultTableModel table1 =(DefaultTableModel)jt_cotizacion.getModel();
         for (int i = 0; i < bebidas.size(); i++) {
             Object[] newrow = {
                 bebidas.get(i).getCodigo(),
@@ -323,25 +323,15 @@ public class Principal extends javax.swing.JFrame {
 
         jt_cotizacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Codigo", "Marca", "Nombre", "Precio", "Cantidad en el inventario"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
-            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -545,6 +535,11 @@ public class Principal extends javax.swing.JFrame {
                 break;
             }
         }
+        if(Integer.parseInt(tf_cantalcohol.getText()) >= 100){
+            ver = false;
+                JOptionPane.showMessageDialog(jd_agregarB, "Un producto no puede contener mas de 100% de alcohol");
+                tf_cantalcohol.setText("");
+        }
         if (ver == true && tf_marca.getText().length() > 0 && tf_cantalcohol.getText().length() > 0 && tf_cantazucar.getText().length() > 0 && 
                 tf_cantidad.getText().length() > 0 && tf_codigo.getText().length() > 0 && tf_nombre.getText().length() > 0 &&
                 tf_numlote.getText().length() > 0 && tf_precio.getText().length() > 0) 
@@ -698,8 +693,7 @@ public class Principal extends javax.swing.JFrame {
     private void btn_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_eliminarMouseClicked
         if (jl_eliminar.getSelectedIndex() >= 0) {
             DefaultListModel modelo = (DefaultListModel) jl_eliminar.getModel();
-            modelo.remove(jl_eliminar.getSelectedIndex());
-            jl_eliminar.setModel(modelo);
+            
             bebidas.remove(jl_eliminar.getSelectedIndex());
             try {
                 File archivo = new File("./Inventario.txt");
@@ -707,7 +701,7 @@ public class Principal extends javax.swing.JFrame {
                 BufferedWriter bw = null;
                 Scanner sc = null;
                 try {
-                    fw = new FileWriter(archivo, true);
+                    fw = new FileWriter(archivo, false);
                     bw = new BufferedWriter(fw);
                     for (Bebida t : bebidas) {
                         bw.write(t.getCodigo()+";");
@@ -754,20 +748,71 @@ public class Principal extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
+            modelo.remove(jl_eliminar.getSelectedIndex());
+            jl_eliminar.setModel(modelo);
         }
     }//GEN-LAST:event_btn_eliminarMouseClicked
 
     private void btn_generarcotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_generarcotiMouseClicked
-        
+        try {                                             
+            File archivo = new File("./Factura.txt");
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            Scanner sc = null;
+            try {
+                fw = new FileWriter(archivo);
+                bw = new BufferedWriter(fw);
+                bw.write("                                          Supermercado EL Barrio");
+                bw.newLine();
+                bw.write("                                 Factura #1                   "+ new Date());
+                bw.newLine();
+                bw.write("                               Produc.               cant           Precio");
+                bw.newLine();
+                for (int i = 0; i < pos.size(); i++) {
+                    bw.write("                               "+bebidas.get(pos.get(i)).getNombre()+"                "+bebidas.get(nums.get(i))+"          Lps. "+bebidas.get(pos.get(i)).getPrecio());
+                    bw.newLine();
+                }
+                bw.write("                                                                     TOTAL:");
+                bw.newLine();
+                int suma=0;
+                for (int i = 0; i < pos.size(); i++) {
+                    suma= suma + bebidas.get(pos.get(i)).getPrecio();
+                }
+                bw.write("                                                                        "+suma);
+                bw.newLine();
+                bw.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            bw.close();
+            fw.close();
+            bebidas = new ArrayList();
+            if (archivo.exists()) {
+                try {
+                    sc = new Scanner(archivo);
+                    sc.useDelimiter(";");
+                    while (sc.hasNext()) {
+                        bebidas.add(new Bebida(sc.next(), sc.next(), sc.next(), sc.nextInt(), sc.nextInt(), sc.nextBoolean(),
+                                sc.nextInt(), sc.next(), sc.nextInt(), sc.nextInt(), sc.next()));
+                    }
+                } catch (Exception e) {
+                }
+                sc.close();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_generarcotiMouseClicked
 
     private void btn_coti_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_coti_agregarMouseClicked
         if (jt_cotizacion.getSelectedRow() >= 0) {
-            DefaultListModel modelo = (DefaultListModel) jl_eliminar.getModel();
-             modelo.addElement("#"+bebidas.get(jt_cotizacion.getSelectedRow()).getCodigo()+", "
-                     +bebidas.get(jt_cotizacion.getSelectedRow()).getNombre());
-            modelo.addElement(jt_cotizacion.getSelectedRow());
-            jl_eliminar.setModel(modelo);
+            DefaultListModel modelo = (DefaultListModel) jl_cotizacion.getModel();
+            int cant = Integer.parseInt(JOptionPane.showInputDialog(jd_cotizacion, "Cuantas quiere agregar?"));
+            modelo.addElement("#"+bebidas.get(jt_cotizacion.getSelectedRow()).getCodigo()+", "
+                     +bebidas.get(jt_cotizacion.getSelectedRow()).getNombre() + ",   Cantidad: "+ cant);
+            jl_cotizacion.setModel(modelo);
+            nums.add(cant);
+            pos.add(jt_cotizacion.getSelectedRow());
         }
     }//GEN-LAST:event_btn_coti_agregarMouseClicked
 
@@ -862,5 +907,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField tf_precio;
     // End of variables declaration//GEN-END:variables
     ArrayList<Bebida> bebidas = new ArrayList();
+    ArrayList <Integer> nums = new ArrayList();
+    ArrayList <Integer> pos = new ArrayList();
 }
 

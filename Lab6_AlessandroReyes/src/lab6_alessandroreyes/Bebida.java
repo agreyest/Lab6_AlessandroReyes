@@ -24,7 +24,8 @@ public class Bebida {
         this.marca = marca;
         this.nombre = nombre;
         this.cantAzucar = cantAzucar;
-        this.cantalcohol = cantalcohol;
+        if(cantalcohol < 100)
+            this.cantalcohol = cantalcohol;
         this.nacional = nacional;
         this.numlote = numlote;
         this.colorantes = colorantes;
@@ -71,7 +72,8 @@ public class Bebida {
     }
 
     public void setCantalcohol(int cantalcohol) {
-        this.cantalcohol = cantalcohol;
+        if(cantalcohol < 100)
+            this.cantalcohol = cantalcohol;
     }
 
     public boolean isNacional() {

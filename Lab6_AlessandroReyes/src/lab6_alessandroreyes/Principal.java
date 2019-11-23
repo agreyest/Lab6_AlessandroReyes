@@ -119,6 +119,8 @@ public class Principal extends javax.swing.JFrame {
         btn_eliminar_regresar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
         jd_modificar = new javax.swing.JDialog();
+        cb_modificar = new javax.swing.JComboBox<>();
+        jTextField1 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         Acciones = new javax.swing.JMenu();
         jm_inventario = new javax.swing.JMenu();
@@ -441,15 +443,32 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(41, 41, 41))
         );
 
+        cb_modificar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Marca", "Nombre", "cantidad de azucar", "Porcentaje de alcohol", "Colorantes", "Precio", "Cantidad en el inventario", "Fecha de vencimiento" }));
+
+        jTextField1.setText("jTextField1");
+
         javax.swing.GroupLayout jd_modificarLayout = new javax.swing.GroupLayout(jd_modificar.getContentPane());
         jd_modificar.getContentPane().setLayout(jd_modificarLayout);
         jd_modificarLayout.setHorizontalGroup(
             jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jd_modificarLayout.createSequentialGroup()
+                .addGroup(jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_modificarLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(cb_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jd_modificarLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(587, Short.MAX_VALUE))
         );
         jd_modificarLayout.setVerticalGroup(
             jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(jd_modificarLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(cb_modificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(405, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -467,6 +486,11 @@ public class Principal extends javax.swing.JFrame {
         jm_inventario.add(jmi_inventario_agregar);
 
         jmi_inventario_modificar.setText("Modificar");
+        jmi_inventario_modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_inventario_modificarActionPerformed(evt);
+            }
+        });
         jm_inventario.add(jmi_inventario_modificar);
 
         jmi_inventario_eliminar.setText("Eliminar");
@@ -830,6 +854,28 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_coti_agregarMouseClicked
 
+    private void jmi_inventario_modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_inventario_modificarActionPerformed
+        String nombreop=JOptionPane.showInputDialog(jd_modificar, "Ingrese el nombre del producto que quiere modificar");
+        boolean bandera = false;
+        for (int i = 0; i < bebidas.size(); i++) {
+            if(nombreop.equals(bebidas.get(i).getNombre())){
+                opt = i;
+                bandera = true;
+                break;
+            }
+        }
+        if(bandera == true){
+            this.setVisible(false);
+        jd_modificar.setModal(true);
+        jd_modificar.pack();
+        jd_modificar.setLocationRelativeTo(this);
+        jd_modificar.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Ese producto no existe.");
+        }
+        
+    }//GEN-LAST:event_jmi_inventario_modificarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -878,6 +924,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JCheckBox cb_amarillo;
     private javax.swing.JCheckBox cb_azul;
     private javax.swing.JCheckBox cb_blanco;
+    private javax.swing.JComboBox<String> cb_modificar;
     private javax.swing.JCheckBox cb_rojo;
     private javax.swing.JCheckBox cb_verde;
     private javax.swing.JFormattedTextField ftf_fecha;
@@ -898,6 +945,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JDialog jd_agregarB;
     private javax.swing.JDialog jd_cotizacion;
     private javax.swing.JDialog jd_eliminar;
@@ -924,5 +972,6 @@ public class Principal extends javax.swing.JFrame {
     ArrayList<Bebida> bebidas = new ArrayList();
     ArrayList <Integer> nums = new ArrayList();
     ArrayList <Integer> pos = new ArrayList();
+    int opt;
 }
 

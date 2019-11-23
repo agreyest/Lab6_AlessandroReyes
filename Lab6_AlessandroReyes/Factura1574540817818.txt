@@ -1,0 +1,8 @@
+                                          Supermercado EL Barrio
+                                 Factura #1                   Sat Nov 23 14:26:57 CST 2019
+                               Produc.               cant           Precio
+                               Vodka1                23          Lps. 232
+                               Vodka                2          Lps. 350
+                               KKK                3          Lps. 23
+                                                                     TOTAL:
+                                                                        6105

@@ -1,0 +1,8 @@
+                                          Supermercado EL Barrio
+                                 Factura #1                   Sat Nov 23 14:25:13 CST 2019
+                               Produc.               cant           Precio
+                               KKK                234          Lps. 23
+                               Pepsi                2          Lps. 15
+                               Vodka                0          Lps. 350
+                                                                     TOTAL:
+                                                                        388

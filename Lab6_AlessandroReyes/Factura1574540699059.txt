@@ -1,0 +1,7 @@
+                                          Supermercado EL Barrio
+                                 Factura #1                   Sat Nov 23 14:24:59 CST 2019
+                               Produc.               cant           Precio
+                               Pepsi                2342          Lps. 15
+                               Vodka2                234          Lps. 232
+                                                                     TOTAL:
+                                                                        247

@@ -928,33 +928,10 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_generarcotiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_generarcotiMouseClicked
         try {                                             
-            File archivo2 = new File("./Cont.txt");
-            FileWriter fw2 = null;
-            BufferedWriter bw2 = null;
-            Scanner sc2 = null;
-            try {
-                fw2 = new FileWriter(archivo2);
-                bw2 = new BufferedWriter(fw2);
-                bw2.write(cont + 1);
-                bw2.flush();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            bw2.close();
-            fw2.close();
-            if (archivo2.exists()) {
-                try {
-                    cont = sc2.nextInt();
-                } catch (Exception e) {
-                }
-                sc2.close();
-            }
             
-            
-            File archivo = new File("./Factura"+cont+".txt");
+            File archivo = new File("./Factura"+new Date().getTime()+".txt");
             FileWriter fw = null;
             BufferedWriter bw = null;
-            Scanner sc = null;
             try {
                 fw = new FileWriter(archivo);
                 bw = new BufferedWriter(fw);
@@ -965,14 +942,14 @@ public class Principal extends javax.swing.JFrame {
                 bw.write("                               Produc.               cant           Precio");
                 bw.newLine();
                 for (int i = 0; i < pos.size(); i++) {
-                    bw.write("                               "+bebidas.get(pos.get(i)).getNombre()+"                "+bebidas.get(nums.get(i))+"          Lps. "+bebidas.get(pos.get(i)).getPrecio());
+                    bw.write("                               "+bebidas.get(pos.get(i)).getNombre()+"                "+nums.get(i)+"          Lps. "+bebidas.get(pos.get(i)).getPrecio());
                     bw.newLine();
                 }
                 bw.write("                                                                     TOTAL:");
                 bw.newLine();
                 int suma=0;
                 for (int i = 0; i < pos.size(); i++) {
-                    suma= suma + bebidas.get(pos.get(i)).getPrecio();
+                    suma= suma + (bebidas.get(pos.get(i)).getPrecio()*nums.get(i));
                 }
                 bw.write("                                                                        "+suma);
                 bw.newLine();
@@ -982,21 +959,12 @@ public class Principal extends javax.swing.JFrame {
             }
             bw.close();
             fw.close();
-            bebidas = new ArrayList();
-            if (archivo.exists()) {
-                try {
-                    sc = new Scanner(archivo);
-                    sc.useDelimiter(";");
-                    while (sc.hasNext()) {
-                        bebidas.add(new Bebida(sc.next(), sc.next(), sc.next(), sc.nextInt(), sc.nextInt(), sc.nextBoolean(),
-                                sc.nextInt(), sc.next(), sc.nextInt(), sc.nextInt(), sc.next()));
-                    }
-                } catch (Exception e) {
-                }
-                sc.close();
-            }
             JOptionPane.showMessageDialog(jd_cotizacion, "La cotizacion se creo con exito");
-            jl_cotizacion.setModel(new DefaultListModel());
+            DefaultListModel modelo = (DefaultListModel) jl_cotizacion.getModel();
+            modelo.clear();
+            jl_cotizacion.setModel(modelo);
+            pos.clear();
+            nums.clear();
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1004,7 +972,9 @@ public class Principal extends javax.swing.JFrame {
 
     private void btn_coti_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_coti_agregarMouseClicked
         if (jt_cotizacion.getSelectedRow() >= 0) {
+            System.out.println("size: "+ bebidas.size());
             DefaultListModel modelo = (DefaultListModel) jl_cotizacion.getModel();
+            System.out.println("capa "+modelo.capacity());
             int cant = Integer.parseInt(JOptionPane.showInputDialog(jd_cotizacion, "Cuantas quiere agregar?"));
             modelo.addElement("#"+bebidas.get(jt_cotizacion.getSelectedRow()).getCodigo()+", "
                      +bebidas.get(jt_cotizacion.getSelectedRow()).getNombre() + ",   Cantidad: "+ cant);

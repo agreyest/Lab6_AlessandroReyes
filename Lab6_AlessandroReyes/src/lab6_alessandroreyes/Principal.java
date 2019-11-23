@@ -118,6 +118,7 @@ public class Principal extends javax.swing.JFrame {
         jl_eliminar = new javax.swing.JList<>();
         btn_eliminar_regresar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
+        jd_modificar = new javax.swing.JDialog();
         jMenuBar1 = new javax.swing.JMenuBar();
         Acciones = new javax.swing.JMenu();
         jm_inventario = new javax.swing.JMenu();
@@ -440,6 +441,17 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(41, 41, 41))
         );
 
+        javax.swing.GroupLayout jd_modificarLayout = new javax.swing.GroupLayout(jd_modificar.getContentPane());
+        jd_modificar.getContentPane().setLayout(jd_modificarLayout);
+        jd_modificarLayout.setHorizontalGroup(
+            jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jd_modificarLayout.setVerticalGroup(
+            jd_modificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Acciones.setText("Acciones");
@@ -608,7 +620,7 @@ public class Principal extends javax.swing.JFrame {
                 }
                 jl_eliminar.setModel(modelo);
 
-                DefaultTableModel table1 = new DefaultTableModel();
+                DefaultTableModel table1 = (DefaultTableModel) jt_cotizacion.getModel();
                 for (int i = 0; i < bebidas.size(); i++) {
                     Object[] newrow = {
                         bebidas.get(i).getCodigo(),
@@ -799,6 +811,8 @@ public class Principal extends javax.swing.JFrame {
                 }
                 sc.close();
             }
+            JOptionPane.showMessageDialog(jd_cotizacion, "La cotizacion se creo con exito");
+            jl_cotizacion.setModel(new DefaultListModel());
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -887,6 +901,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JDialog jd_agregarB;
     private javax.swing.JDialog jd_cotizacion;
     private javax.swing.JDialog jd_eliminar;
+    private javax.swing.JDialog jd_modificar;
     private javax.swing.JList<String> jl_cotizacion;
     private javax.swing.JList<String> jl_eliminar;
     private javax.swing.JMenu jm_inventario;
